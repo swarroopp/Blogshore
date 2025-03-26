@@ -1,187 +1,173 @@
-/* Base navbar styling */
-.custom-nav {
-  background-color: #1a1b1e;
-  padding: 1rem 0;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+/* Yellow theme animation styles */
+:root {
+  --primary-yellow: #FFD54F;
+  --bright-yellow: #FFEB3B;
+  --dark-yellow: #FFC107;
+}
+
+.navbar {
+  transition: all 0.4s ease;
+}
+
+.navbar.scrolled {
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+/* Logo shine animation */
+.logo-shine {
+  animation: shine 3s infinite;
+  filter: drop-shadow(0 0 3px rgba(255, 213, 79, 0.5));
+}
+
+@keyframes shine {
+  0% {
+    filter: drop-shadow(0 0 3px rgba(255, 213, 79, 0.3));
+    transform: scale(1);
+  }
+  50% {
+    filter: drop-shadow(0 0 8px rgba(255, 213, 79, 0.6));
+    transform: scale(1.1);
+  }
+  100% {
+    filter: drop-shadow(0 0 3px rgba(255, 213, 79, 0.3));
+    transform: scale(1);
+  }
+}
+
+/* Link hover effect with shine */
+.hover-shine {
   position: relative;
-}
-
-.nav-logo {
-  font-size: 2rem;
-  color: #F56565;
-}
-
-.brand-text {
-  font-size: 1.7rem;
-  font-weight: 600;
-  color: #EBEBF5;
-}
-
-/* Desktop navbar links */
-.navbar-nav .nav-link {
-  color: #EBEBF5 !important; /* Override Bootstrap default */
-  font-weight: 500;
-  padding: 0.5rem 1rem;
-  transition: color 0.3s ease;
-}
-
-.navbar-nav .nav-link:hover {
-  color: #F56565 !important;
-}
-
-.navbar-nav .nav-link.active {
-  color: #F56565 !important;
-}
-
-.user-info {
-  background-color: rgba(255, 255, 255, 0.1);
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-}
-
-.user-role {
-  color: #F56565;
-  font-size: 0.9rem;
-  font-weight: 500;
-}
-
-.user-name {
-  color: #EBEBF5;
-  font-weight: 500;
-}
-
-.sign-out-btn {
-  background-color: transparent;
-  border: 1px solid #F56565;
-  color: #F56565;
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
-  font-weight: 500;
-  transition: all 0.3s ease;
-}
-
-.sign-out-btn:hover {
-  background-color: #F56565;
-  color: white;
-}
-
-/* Navbar toggler styling */
-.navbar-toggler {
-  border: 1px solid rgba(235, 235, 245, 0.2);
-  padding: 0.25rem 0.75rem;
-  transition: all 0.2s ease;
-}
-
-.navbar-toggler:focus {
-  box-shadow: none;
-  outline: none;
-}
-
-.navbar-dark .navbar-toggler-icon {
-  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(235, 235, 245, 0.8)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
-}
-
-/* Enhanced Mobile Dropdown Menu */
-.mobile-menu {
-  display: none;
-  position: absolute;
-  top: calc(100% + 8px);
-  right: 0;
-  width: 200px;
-  background-color: #1a1b1e;
-  z-index: 1000;
-  border-radius: 8px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
   overflow: hidden;
-  transition: all 0.3s ease;
-  opacity: 0;
-  transform: translateY(-10px);
-  border: 1px solid rgba(235, 235, 245, 0.1);
 }
 
-/* Arrow pointing to the toggle icon */
-.mobile-menu:before {
+.hover-shine::before {
   content: '';
   position: absolute;
-  top: -8px;
-  right: 14px; /* Align with the toggle button */
-  width: 16px;
-  height: 16px;
-  background-color: #1a1b1e;
-  transform: rotate(45deg);
-  border-top: 1px solid rgba(235, 235, 245, 0.1);
-  border-left: 1px solid rgba(235, 235, 245, 0.1);
-}
-
-.mobile-menu.expanded {
-  display: block;
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.mobile-menu .navbar-nav {
-  flex-direction: column;
   width: 100%;
-  padding: 8px 0;
+  height: 2px;
+  bottom: 0;
+  left: -100%;
+  background: linear-gradient(90deg, transparent, var(--primary-yellow), transparent);
+  transition: all 0.6s ease;
 }
 
-.mobile-menu .nav-item {
-  padding: 4px 16px;
+.hover-shine:hover::before {
+  left: 100%;
+}
+
+.hover-shine::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: var(--primary-yellow);
+  transition: width 0.3s ease;
+}
+
+.hover-shine:hover::after {
   width: 100%;
-  transition: background-color 0.2s ease;
 }
 
-.mobile-menu .nav-item:hover {
-  background-color: rgba(255, 255, 255, 0.05);
+/* Golden button with hover effects */
+.golden-btn {
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(255, 193, 7, 0.3);
+  z-index: 1;
+}
+
+.golden-btn::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: all 0.6s ease;
+  z-index: -1;
+}
+
+.golden-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(255, 193, 7, 0.5);
+}
+
+.golden-btn:hover::after {
+  left: 100%;
+}
+
+/* Gold outline button hover effects */
+.gold-outline-btn {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.gold-outline-btn:hover {
+  background-color: rgba(255, 213, 79, 0.15) !important;
+  box-shadow: 0 0 8px rgba(255, 213, 79, 0.3);
+  transform: translateY(-1px);
+}
+
+/* Mobile menu animations */
+.mobile-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 8px;
+  border: 1px solid rgba(255, 213, 79, 0.1);
+}
+
+.mobile-menu.collapsed {
+  pointer-events: none;
 }
 
 .mobile-menu .nav-link {
-  color: #EBEBF5 !important;
-  display: block;
-  padding: 8px 0;
-  font-weight: 500;
-  transition: color 0.2s ease;
+  position: relative;
+  transition: all 0.3s ease;
 }
 
 .mobile-menu .nav-link:hover {
-  color: #F56565 !important;
+  color: var(--primary-yellow) !important;
+  padding-left: 5px;
+  text-shadow: 0 0 5px rgba(255, 213, 79, 0.3);
 }
 
-.mobile-menu .nav-link.active {
-  color: #F56565 !important;
+/* Fancy animation for the brand text */
+.brand-text {
+  position: relative;
+  animation: textGlow 4s infinite;
 }
 
-/* Mobile user info styling */
-.mobile-menu .user-info {
-  background-color: rgba(255, 255, 255, 0.05);
-  margin: 4px 16px;
-  border-radius: 6px;
-}
-
-.mobile-menu .sign-out-btn {
-  margin: 4px 16px;
-  width: calc(100% - 32px);
-  text-align: center;
-}
-
-/* Responsive handling */
-@media (min-width: 992px) {
-  .mobile-menu {
-    display: none !important;
+@keyframes textGlow {
+  0%, 100% {
+    text-shadow: 0 0 2px rgba(255, 213, 79, 0.3);
+  }
+  50% {
+    text-shadow: 0 0 10px rgba(255, 213, 79, 0.6);
   }
 }
 
-@media (max-width: 991px) {
-  .navbar-collapse {
-    display: none !important;
+/* User badge with subtle animation */
+.user-role {
+  position: relative;
+  animation: softPulse 3s infinite;
+}
+
+@keyframes softPulse {
+  0%, 100% {
+    box-shadow: 0 0 0 rgba(255, 213, 79, 0);
   }
-  
-  .navbar-toggler {
-    display: block;
+  50% {
+    box-shadow: 0 0 5px rgba(255, 213, 79, 0.5);
   }
 }
 
-/* Adding transition for smooth collapse */
-.navbar-collapse {
-  transition: all 0.3s ease;
+/* Add a subtle golden border to the navbar when scrolled */
+.navbar.scrolled {
+  border-bottom: 1px solid rgba(255, 213, 79, 0.1);
 }

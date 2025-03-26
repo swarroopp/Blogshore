@@ -13,11 +13,28 @@ const Header = () => {
   const [isNavCollapsed, setIsNavCollapsed] = useState(true);
   const toggleRef = useRef(null);
   const menuRef = useRef(null);
+  const [scrolled, setScrolled] = useState(false);
 
   // Toggle navbar collapse state
   const handleNavCollapse = () => {
     setIsNavCollapsed(!isNavCollapsed);
   };
+
+  // Track scroll position for animation
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   // Close menu when clicking outside
   useEffect(() => {
@@ -46,12 +63,33 @@ const Header = () => {
     }
   };
 
+  // Yellow accent color variables
+  const primaryYellow = '#FFD54F';
+  const brightYellow = '#FFEB3B';
+  const darkYellow = '#FFC107';
+
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark" style={{ backgroundColor: '#1A1E22', boxShadow: '0 2px 10px rgba(0,0,0,0.3)' }}>
+    <nav 
+      className={`navbar navbar-expand-lg navbar-dark ${scrolled ? 'scrolled' : ''}`} 
+      style={{ 
+        backgroundColor: scrolled ? '#121212' : 'rgba(18, 18, 18, 0.85)', 
+        backdropFilter: 'blur(8px)',
+        transition: 'all 0.4s ease-in-out',
+        boxShadow: scrolled ? `0 4px 20px rgba(255, 213, 79, 0.15)` : 'none'
+      }}
+    >
       <div className="container">
         <Link to="/" className="navbar-brand d-flex align-items-center">
-          <FaLeaf className="nav-logo me-2" style={{ color: '#4ADE80' }} />
-          <span className="brand-text" style={{ color: '#4ADE80', letterSpacing: '0.8px', fontWeight: 600 }}>BlogShore</span>
+          <FaLeaf className="nav-logo me-2 logo-shine" style={{ 
+            color: primaryYellow, 
+          }} />
+          <span className="brand-text" style={{ 
+            color: primaryYellow, 
+            letterSpacing: '0.8px', 
+            fontWeight: 600,
+            transition: 'all 0.3s ease',
+            transform: scrolled ? 'scale(0.95)' : 'scale(1)'
+          }}>BlogShore</span>
         </Link>
 
         <div className="d-flex position-relative">
@@ -67,11 +105,21 @@ const Header = () => {
             <span className="navbar-toggler-icon"></span>
           </button>
 
-          {/* Mobile dropdown menu */}
+          {/* Mobile dropdown menu with animation */}
           <div 
             ref={menuRef}
             className={`mobile-menu ${isNavCollapsed ? 'collapsed' : 'expanded'}`}
-            style={{ backgroundColor: '#222930', borderRadius: '8px', boxShadow: '0 4px 12px rgba(0,0,0,0.5)', minWidth: '200px', zIndex: 1000 }}
+            style={{ 
+              backgroundColor: '#151515', 
+              borderRadius: '8px', 
+              boxShadow: `0 4px 20px rgba(255, 213, 79, 0.2)`,
+              minWidth: '200px', 
+              zIndex: 1000,
+              transform: isNavCollapsed ? 'translateY(-10px)' : 'translateY(0)',
+              opacity: isNavCollapsed ? 0 : 1,
+              visibility: isNavCollapsed ? 'hidden' : 'visible',
+              transition: 'all 0.3s cubic-bezier(0.17, 0.67, 0.83, 0.67)'
+            }}
           >
             <ul className="navbar-nav">
               {!isSignedIn ? (
@@ -92,7 +140,11 @@ const Header = () => {
                   <li className="nav-item py-2">
                     <div className="user-info">
                       <div className="d-flex align-items-center">
-                        <span className="user-role badge" style={{ backgroundColor: 'rgba(74, 222, 128, 0.2)', color: '#4ADE80', fontWeight: 500 }}>
+                        <span className="user-role badge" style={{ 
+                          backgroundColor: 'rgba(255, 213, 79, 0.2)', 
+                          color: primaryYellow, 
+                          fontWeight: 500 
+                        }}>
                           {currentUser?.role}
                         </span>
                         <span className="user-name ms-2 text-light">{user?.firstName}</span>
@@ -100,8 +152,17 @@ const Header = () => {
                     </div>
                   </li>
                   <li className="nav-item py-2">
-                    <button onClick={handleSignOut} className="sign-out-btn btn btn-sm" 
-                      style={{ backgroundColor: 'transparent', color: '#4ADE80', border: '1px solid #4ADE80', borderRadius: '4px' }}>
+                    <button 
+                      onClick={handleSignOut} 
+                      className="sign-out-btn btn btn-sm" 
+                      style={{ 
+                        backgroundColor: 'transparent', 
+                        color: primaryYellow, 
+                        border: `1px solid ${primaryYellow}`, 
+                        borderRadius: '4px',
+                        transition: 'all 0.3s ease'
+                      }}
+                    >
                       Sign Out
                     </button>
                   </li>
@@ -117,15 +178,19 @@ const Header = () => {
             {!isSignedIn ? (
               <>
                 <li className="nav-item ms-4">
-                  <NavLink to="/signin" className="nav-link text-light hover-green">
+                  <NavLink to="/signin" className="nav-link text-light hover-shine">
                     Sign In
                   </NavLink>
                 </li>
                 <li className="nav-item ms-4">
                   <NavLink 
                     to="/signup" 
-                    className="nav-link btn btn-sm px-4 py-2 text-dark fw-medium"
-                    style={{ backgroundColor: '#4ADE80', borderRadius: '4px', transition: 'all 0.3s ease' }}
+                    className="nav-link btn btn-sm px-4 py-2 text-dark fw-medium golden-btn"
+                    style={{ 
+                      background: `linear-gradient(135deg, ${brightYellow}, ${darkYellow})`, 
+                      borderRadius: '4px', 
+                      transition: 'all 0.3s ease'
+                    }}
                   >
                     Sign Up
                   </NavLink>
@@ -136,7 +201,12 @@ const Header = () => {
                 <li className="nav-item me-3">
                   <div className="user-info">
                     <div className="d-flex align-items-center">
-                      <span className="user-role badge" style={{ backgroundColor: 'rgba(74, 222, 128, 0.2)', color: '#4ADE80', fontWeight: 500 }}>
+                      <span className="user-role badge" style={{ 
+                        backgroundColor: 'rgba(255, 213, 79, 0.2)', 
+                        color: primaryYellow, 
+                        fontWeight: 500,
+                        transition: 'all 0.3s ease'
+                      }}>
                         {currentUser?.role}
                       </span>
                       <span className="user-name ms-2 text-light">{user?.firstName}</span>
@@ -146,8 +216,14 @@ const Header = () => {
                 <li className="nav-item">
                   <button 
                     onClick={handleSignOut} 
-                    className="sign-out-btn btn btn-sm px-3 py-1"
-                    style={{ backgroundColor: 'transparent', color: '#4ADE80', border: '1px solid #4ADE80', borderRadius: '4px', transition: 'all 0.3s ease' }}
+                    className="sign-out-btn btn btn-sm px-3 py-1 gold-outline-btn"
+                    style={{ 
+                      backgroundColor: 'transparent', 
+                      color: primaryYellow, 
+                      border: `1px solid ${primaryYellow}`, 
+                      borderRadius: '4px', 
+                      transition: 'all 0.3s ease'
+                    }}
                   >
                     Sign Out
                   </button>

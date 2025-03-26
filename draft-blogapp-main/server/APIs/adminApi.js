@@ -1,128 +1,144 @@
 const exp = require("express");
 const adminApp = exp.Router();
-const expressAsyncHandler = require("express-async-handler");
 const UserAuthor = require("../models/userAuthorModel");
-const { requireAuth } = require("@clerk/express");
+const expressAsyncHandler = require("express-async-handler");
 require("dotenv").config();
 
-// Route to create a new admin
-adminApp.post(
-  "/admin", 
-  expressAsyncHandler(async (req, res) => {
-    // Create admin using shared function
-    const createUserOrAuthor = require("./createUserOrAuthor");
-    await createUserOrAuthor(req, res);
-  })
-);
+adminApp.use(exp.json());
 
-// Route to get all users and authors (admin only)
-adminApp.get(
-  "/users",
-  requireAuth({ signInUrl: "unauthorized" }),
+// POST endpoint for user-authors that matches the client-side call
+adminApp.post(
+  "/users-authors",
   expressAsyncHandler(async (req, res) => {
     try {
-      // Verify the requester is an admin
-      const adminEmail = req.auth.userId; // Using Clerk userId which contains email
-      const admin = await UserAuthor.findOne({ email: adminEmail, role: "admin" });
+      const userData = req.body;
       
-      if (!admin) {
-        return res.status(403).send({ message: "Access denied. Admin privileges required." });
+      // Verify this is an admin by checking email in database
+      const adminUser = await UserAuthor.findOne({ 
+        email: userData.email, 
+        role: "admin" 
+      });
+      
+      if (!adminUser) {
+        return res.status(403).json({ message: "Not authorized as admin" });
       }
       
-      // Get all users and authors
-      const allUsers = await UserAuthor.find({ role: { $in: ["user", "author"] } });
-      
-      res.status(200).send({ message: "All users and authors", payload: allUsers });
+      // If admin exists and is active, send back user data
+      if (adminUser.isActive) {
+        return res.status(200).json({ 
+          message: "admin", 
+          payload: adminUser 
+        });
+      } else {
+        return res.status(403).json({ 
+          message: "Your admin account is blocked. Please contact support for assistance." 
+        });
+      }
     } catch (error) {
-      res.status(500).send({ message: "Error fetching users", error: error.message });
+      console.error("Admin verification error:", error);
+      res.status(500).json({ message: "Server error", error: error.message });
     }
   })
 );
 
-// Route to enable/disable a user or author (admin only)
-adminApp.put(
-  "/users/:userId/status",
-  requireAuth({ signInUrl: "unauthorized" }),
+// Check if user is an admin (keeping from second API but removing Clerk dependency)
+adminApp.post(
+  "/check-admin",
   expressAsyncHandler(async (req, res) => {
     try {
-      // Verify the requester is an admin
-      const adminEmail = req.auth.userId;
-      const admin = await UserAuthor.findOne({ email: adminEmail, role: "admin" });
+      const { email } = req.body;
       
-      if (!admin) {
-        return res.status(403).send({ message: "Access denied. Admin privileges required." });
+      if (!email) {
+        return res.status(400).json({ message: "Email is required" });
       }
       
-      // Extract status from request body
-      const { isActive } = req.body;
+      // Check if user exists
+      const user = await UserAuthor.findOne({ email });
       
-      if (typeof isActive !== "boolean") {
-        return res.status(400).send({ message: "Invalid status. Must be a boolean value." });
+      if (!user) {
+        return res.status(404).json({ message: "User not found", isAdmin: false });
       }
       
-      // Update user status
-      const updatedUser = await UserAuthor.findByIdAndUpdate(
-        req.params.userId,
-        { isActive: isActive },
+      // Return user data with admin status
+      return res.status(200).json({ 
+        message: "Admin status checked",
+        isAdmin: user.role === 'admin',
+        userId: user._id,
+        role: user.role
+      });
+    } catch (error) {
+      console.error("Admin verification error:", error);
+      res.status(500).json({ message: "Server error", error: error.message });
+    }
+  })
+);
+
+// Get all users and authors (removing Clerk authentication)
+adminApp.get(
+  "/users-authors",
+  expressAsyncHandler(async (req, res) => {
+    try {
+      // Optional: Add a simple authentication check using query parameter
+      const { email } = req.query;
+      
+      if (email) {
+        // Verify this is an admin by checking the database
+        const adminUser = await UserAuthor.findOne({ email, role: "admin" });
+        
+        if (!adminUser) {
+          return res.status(403).json({ message: "Not authorized as admin" });
+        }
+      }
+      
+      const users = await UserAuthor.find();
+      res.status(200).json({ 
+        message: "Users fetched successfully", 
+        payload: users 
+      });
+    } catch (error) {
+      res.status(500).json({ message: "Error fetching users and authors", error: error.message });
+    }
+  })
+);
+
+// Enable or disable a user/author (removing Clerk authentication)
+adminApp.put(
+  "/update-status/:email",
+  expressAsyncHandler(async (req, res) => {
+    try {
+      const { email } = req.params;
+      const { isActive, adminEmail } = req.body;
+      
+      if (typeof isActive !== 'boolean') {
+        return res.status(400).json({ message: "isActive must be a boolean value" });
+      }
+      
+      // Optional: Verify the requester is an admin
+      if (adminEmail) {
+        const adminUser = await UserAuthor.findOne({ email: adminEmail, role: "admin" });
+        if (!adminUser) {
+          return res.status(403).json({ message: "Not authorized as admin" });
+        }
+      }
+      
+      const user = await UserAuthor.findOneAndUpdate(
+        { email },
+        { isActive },
         { new: true }
       );
-      
-      if (!updatedUser) {
-        return res.status(404).send({ message: "User not found" });
+
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
       }
-      
-      const statusMessage = isActive ? "activated" : "blocked";
-      
-      res.status(200).send({ 
-        message: `User ${statusMessage} successfully`, 
-        payload: updatedUser 
+
+      res.status(200).json({ 
+        message: `User ${isActive ? "activated" : "deactivated"} successfully`, 
+        payload: user 
       });
     } catch (error) {
-      res.status(500).send({ message: "Error updating user status", error: error.message });
+      res.status(500).json({ message: "Error updating user status", error: error.message });
     }
   })
 );
-
-// Route to get admin dashboard data
-adminApp.get(
-  "/dashboard",
-  requireAuth({ signInUrl: "unauthorized" }),
-  expressAsyncHandler(async (req, res) => {
-    try {
-      // Verify the requester is an admin
-      const adminEmail = req.auth.userId;
-      const admin = await UserAuthor.findOne({ email: adminEmail, role: "admin" });
-      
-      if (!admin) {
-        return res.status(403).send({ message: "Access denied. Admin privileges required." });
-      }
-      
-      // Get counts for dashboard
-      const userCount = await UserAuthor.countDocuments({ role: "user" });
-      const authorCount = await UserAuthor.countDocuments({ role: "author" });
-      const blockedCount = await UserAuthor.countDocuments({ 
-        role: { $in: ["user", "author"] },
-        isActive: false
-      });
-      
-      res.status(200).send({ 
-        message: "Dashboard data", 
-        payload: {
-          userCount,
-          authorCount,
-          blockedCount,
-          totalCount: userCount + authorCount
-        } 
-      });
-    } catch (error) {
-      res.status(500).send({ message: "Error fetching dashboard data", error: error.message });
-    }
-  })
-);
-
-// Route to handle unauthorized access attempts
-adminApp.get("/unauthorized", (req, res) => {
-  res.status(401).send({ message: "Unauthorized request" });
-});
 
 module.exports = adminApp;
