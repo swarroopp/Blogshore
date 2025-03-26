@@ -30,7 +30,7 @@ function Home() {
   const navigate = useNavigate();
 
   const handleCopyEmail = () => {
-    navigator.clipboard.writeText("ashishlukka2005@gmail.com");
+    navigator.clipboard.writeText("swaroopmallidi7777@gmail.com");
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -44,7 +44,6 @@ function Home() {
     
     try {
       if (selectedRole === "admin") {
-        // Check admin access first
         const res = await axios.post(
           `http://localhost:3000/admin-api/users-authors`,
           tempUser
@@ -67,7 +66,6 @@ function Home() {
         const { message, payload } = res.data;
         
         if (message === "author") {
-          // Check if account is active
           if (!payload.isActive) {
             setError("Your author account is blocked. Please contact admin for assistance.");
             resetRadioSelection();
@@ -88,7 +86,6 @@ function Home() {
         const { message, payload } = res.data;
         
         if (message === "user") {
-          // Check if account is active
           if (!payload.isActive) {
             setError("Your account is blocked. Please contact admin for assistance.");
             resetRadioSelection();
@@ -114,7 +111,6 @@ function Home() {
     }
   }
 
-  // Function to reset radio button selection
   const resetRadioSelection = () => {
     const radios = document.querySelectorAll('input[name="role"]');
     radios.forEach(radio => {
@@ -124,23 +120,19 @@ function Home() {
 
   useEffect(() => {
     if (isSignedIn === true) {
-      // Reset user state when logged in
       setCurrentUser({
         firstName: user.firstName,
         lastName: user.lastName,
         email: user.emailAddresses[0].emailAddress,
         profileImageUrl: user.imageUrl,
-        // Do not set role here, let the user choose
       });
       
-      // Clear any previous errors
       setError("");
       resetRadioSelection();
     }
   }, [isLoaded, isSignedIn]);
 
   useEffect(() => {
-    // Only navigate when there's a valid role and no error
     if (!processingRole && error === "" && currentUser?.role) {
       if (currentUser.role === "user") {
         navigate(`/user-profile/${currentUser.email}`);
@@ -157,149 +149,107 @@ function Home() {
   return (
     <div className="home-container">
       {isSignedIn === false && (
-        <div className="welcome-section">
-          {/* Hero Section */}
-          <div className="hero-section">
+        <div className="wave-homepage">
+          <div className="wave-header">
             <h1>
-              Craft your legacy, one{" "}
-              <span className="gradient-text">Draft</span> at a time.
+              Craft Your <span className="gradient-text">Digital Wave</span>
             </h1>
             <p>
-              {" "}
-              A space where raw ideas become polished stories. With intuitive
-              tools for writing and editing, every word is an opportunity to
-              connect and inspire.
+              Ride the currents of creativity, where every blog post 
+              is a wave of inspiration crashing onto the digital shore.
             </p>
-            <NavLink to="/signup" className="cta-button">
-              Get Started
+            <NavLink to="/signup" className="wave-cta">
+              Start Your Journey
             </NavLink>
           </div>
 
-          {/* Statistics Cards */}
-          <div className="flex flex-col items-center">
-            {/* Hero Image Section */}
-            <div className="relative w-full max-w-4xl mx-auto mb-8"></div>
+          <div className="wave-stats">
+            <div className="wave-stat-grid">
+              <div className="wave-stat-card">
+                <Shield className="wave-stat-icon" />
+                <h3>Admin</h3>
+                <p>Navigating the Entire Sea</p>
+              </div>
 
-            {/* Roles Stats Section */}
-            <div className="stats-section w-full max-w-4xl">
-              <div className="stats-grid">
-                <div className="stat-card">
-                  <Shield className="stat-icon text-4xl" />
-                  <h3>Admin</h3>
-                  <p>Full Control</p>
-                  <span className="text-gray-400 text-sm mt-2">
-                    Manage users & content
-                  </span>
-                </div>
+              <div className="wave-stat-card">
+                <PenSquare className="wave-stat-icon" />
+                <h3>Author</h3>
+                <p>Crafting Waves of Content</p>
+              </div>
 
-                <div className="stat-card">
-                  <PenSquare className="stat-icon text-4xl" />
-                  <h3>Author</h3>
-                  <p>Content Creator</p>
-                  <span className="text-gray-400 text-sm mt-2">
-                    Write & publish articles
-                  </span>
-                </div>
-
-                <div className="stat-card">
-                  <User className="stat-icon text-4xl" />
-                  <h3>User</h3>
-                  <p>Reader</p>
-                  <span className="text-gray-400 text-sm mt-2">
-                    Read & interact
-                  </span>
-                </div>
+              <div className="wave-stat-card">
+                <User className="wave-stat-icon" />
+                <h3>Reader</h3>
+                <p>Surfing Knowledge Currents</p>
               </div>
             </div>
           </div>
 
-          {/* Features Section */}
-          <div className="features-section">
-            <h2 className="text-center">
-              Simple, intuitive tools to{" "}
-              <span className="gradient-text">write</span>,{" "}
-              <span className="gradient-text">share</span>, and{" "}
-              <span className="gradient-text">inspire</span>.
+          <div className="wave-features">
+            <h2>
+              Features that <span className="gradient-text">Ride the Tide</span>
             </h2>
-            <div className="features-grid">
-              <div className="feature-card">
-                <div className="icon-wrapper">
-                  <Palette className="feature-icon" />
+            <div className="wave-feature-grid">
+              <div className="wave-feature-card">
+                <div className="wave-icon-wrapper">
+                  <Palette className="wave-feature-icon" />
                 </div>
-                <h3>Modern Interface</h3>
+                <h3>Fluid Design</h3>
                 <p>
-                  Clean, minimalist design with intuitive navigation and
-                  carefully chosen color schemes for optimal readability.
+                  Responsive interfaces that flow seamlessly across 
+                  devices like waves across the ocean.
                 </p>
               </div>
 
-              <div className="feature-card">
-                <div className="icon-wrapper">
-                  <Layout className="feature-icon" />
+              <div className="wave-feature-card">
+                <div className="wave-icon-wrapper">
+                  <Layout className="wave-feature-icon" />
                 </div>
-                <h3>Responsive Design</h3>
+                <h3>Dynamic Layouts</h3>
                 <p>
-                  Fluid layouts that adapt seamlessly to any screen size,
-                  ensuring a consistent experience across all devices.
+                  Adaptive designs that shift and move with 
+                  the rhythms of your content.
                 </p>
               </div>
 
-              <div className="feature-card">
-                <div className="icon-wrapper">
-                  <Mouse className="feature-icon" />
+              <div className="wave-feature-card">
+                <div className="wave-icon-wrapper">
+                  <Mouse className="wave-feature-icon" />
                 </div>
-                <h3>Interactive Elements</h3>
+                <h3>Interactive Currents</h3>
                 <p>
-                  Smooth animations and engaging user interactions that enhance
-                  the browsing experience and content engagement.
+                  Engaging interactions that make navigating 
+                  content feel like riding a perfect wave.
                 </p>
               </div>
             </div>
           </div>
 
-          {/* Tech Stack */}
-          <div className="tech-section">
-            <h2>Built with modern technology</h2>
-            <div className="tech-stack">
-              <div className="tech-item">
-                <FaReact />
-                <span>React</span>
-              </div>
-              <div className="tech-item">
-                <SiMongodb />
-                <span>MongoDB</span>
-              </div>
-              <div className="tech-item">
-                <FaNodeJs />
-                <span>Node.js</span>
-              </div>
-              <div className="tech-item">
-                <SiExpress />
-                <span>Express</span>
-              </div>
-              <div className="tech-item">
-                <SiClerk />
-                <span>Clerk</span>
-              </div>
-              <div className="tech-item">
-                  <FaGithub />
-                <span>GitHub</span>
-              </div>
-              {/* <div className="tech-item">
-                <SiTailwindcss />
-                <span>Tailwind</span>
-              </div> */}
+          <div className="wave-tech-stack">
+            <h2>Technologies Powering Our Digital Tide</h2>
+            <div className="wave-tech-grid">
+              {[
+                { Icon: FaReact, name: "React" },
+                { Icon: SiMongodb, name: "MongoDB" },
+                { Icon: FaNodeJs, name: "Node.js" },
+                { Icon: SiExpress, name: "Express" },
+                { Icon: SiClerk, name: "Clerk" },
+                { Icon: FaGithub, name: "GitHub" }
+              ].map(({ Icon, name }, index) => (
+                <div key={index} className="wave-tech-item">
+                  <Icon className="wave-tech-icon" />
+                  <span>{name}</span>
+                </div>
+              ))}
             </div>
           </div>
 
-          {/* Contact Section */}
-          <div className="contact-section">
-            <h2>Contact</h2>
+          <div className="wave-contact">
             <button
-              className={`contact-button ${copied ? "copied" : ""}`}
+              className={`wave-contact-button ${copied ? "copied" : ""}`}
               onClick={handleCopyEmail}
             >
-              ashishlukka2005@gmail.com
+              swaroopmallidi7777@gmail.com
               {copied && <span className="copied-badge">Copied!</span>}
             </button>
           </div>

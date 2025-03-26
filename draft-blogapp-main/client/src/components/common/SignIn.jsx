@@ -1,6 +1,6 @@
 import React from 'react';
 import { SignIn } from '@clerk/clerk-react';
-import { FaPen } from 'react-icons/fa';
+import { GiWaveSurfer } from "react-icons/gi";
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../css/SignIn.css';
@@ -11,21 +11,21 @@ const SignInPage = () => {
       <div className="auth-wrapper">
         <div className="auth-content">
           <div className="logo-container">
-            <FaPen className="logo-icon" />
+            <GiWaveSurfer className="logo-icon" />
           </div>
-          <h1 className="welcome-title">Welcome Back</h1>
-          <p className="welcome-subtitle">Continue your writing journey</p>
+          <h1 className="welcome-title">Blogshore</h1>
+          <p className="welcome-subtitle">Ride the Waves of Your Thoughts</p>
           <div className="custom-card-container">
-            <SignIn 
+            <SignIn
               appearance={{
                 baseTheme: 'dark',
                 variables: {
-                  colorPrimary: '#F67373',
-                  colorBackground: '#161618',
-                  colorInputBackground: '#1B1B1F',
-                  colorText: '#EBEBF5',
-                  colorTextSecondary: 'rgba(235, 235, 245, 0.7)',
-                  colorDanger: '#F56565',
+                  colorPrimary: '#FFD700',
+                  colorBackground: '#0A0A0E',
+                  colorInputBackground: '#1E1E28',
+                  colorText: '#E6E6E6',
+                  colorTextSecondary: 'rgba(230, 230, 230, 0.7)',
+                  colorDanger: '#FFC300',
                   borderRadius: '8px',
                 },
                 elements: {
@@ -42,7 +42,7 @@ const SignInPage = () => {
               }}
             />
             <div className="custom-footer">
-              <p>Don't have an account? <Link to="/signup" className="custom-link">Sign up</Link></p>
+              <p>Don't have an account? <Link to="/signup" className="custom-link">Set Sail</Link></p>
             </div>
           </div>
         </div>

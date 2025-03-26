@@ -20,8 +20,6 @@ function ArticleByID() {
   const [saveError, setSaveError] = useState("");
   const [isSaving, setIsSaving] = useState(false);
   const [isOriginalAuthor, setIsOriginalAuthor] = useState(false);
-  
-  // Add a state for mobile view detection
   const [isMobileView, setIsMobileView] = useState(window.innerWidth < 768);
 
   // Handle window resize
@@ -62,7 +60,7 @@ function ArticleByID() {
     
     // Split content by line breaks and render each paragraph
     return content.split('\n').map((paragraph, index) => (
-      <p key={index} className="content-paragraph">
+      <p key={index} className="blogshore-content-paragraph">
         {paragraph}
       </p>
     ));
@@ -231,9 +229,9 @@ function ArticleByID() {
   }
 
   return (
-    <div className="article-container">
+    <div className="blogshore-article-container">
       <button 
-        className="back-button" 
+        className="blogshore-back-button" 
         onClick={() => navigate(`/author-profile/articles`)}
       > 
         <FaArrowLeft size={16} />
@@ -242,29 +240,28 @@ function ArticleByID() {
 
       {editArticleStatus === false ? (
         <>
-          <div className="article-header">
-            <div className="article-header-content">
-              <div className="article-main-info">
-                <h1 className="article-text">{currentArticle.title}</h1>
-                <div className="article-meta">
+          <div className="blogshore-article-header">
+            <div className="blogshore-article-header-content">
+              <div className="blogshore-article-main-info">
+                <h1 className="blogshore-article-title">{currentArticle.title}</h1>
+                <div className="blogshore-article-meta">
                   <span>Created on: {currentArticle.dateOfCreation}</span>
                   <span>Modified on: {currentArticle.dateOfModification}</span>
                 </div>
                 
-                {/* Only show edit/delete buttons to the original author */}
                 {isOriginalAuthor && (
-                  <div className="action-buttons">
-                    <button className="action-button edit" onClick={enableEdit}>
+                  <div className="blogshore-action-buttons">
+                    <button className="blogshore-action-button edit" onClick={enableEdit}>
                       <FaEdit size={20} />
                       <span>Edit</span>
                     </button>
                     {currentArticle.isArticleActive ? (
-                      <button className="action-button delete" onClick={deleteArticle}>
+                      <button className="blogshore-action-button delete" onClick={deleteArticle}>
                         <MdDelete size={22} />
                         <span>Delete</span>
                       </button>
                     ) : (
-                      <button className="action-button restore" onClick={restoreArticle}>
+                      <button className="blogshore-action-button restore" onClick={restoreArticle}>
                         <MdRestore size={22} />
                         <span>Restore</span>
                       </button>
@@ -272,52 +269,52 @@ function ArticleByID() {
                   </div>
                 )}
               </div>
-              <div className="author-block">
-                <div className="author-details">
+              <div className="blogshore-author-block">
+                <div className="blogshore-author-details">
                   <img
                     src={currentArticle.authorData.profileImageUrl}
-                    className="author-avatar"
+                    className="blogshore-author-avatar"
                     alt={currentArticle.authorData.nameOfAuthor}
                   />
-                  <p className="author-name">{currentArticle.authorData.nameOfAuthor}</p>
+                  <p className="blogshore-author-name">{currentArticle.authorData.nameOfAuthor}</p>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="article-content">
+          <div className="blogshore-article-content">
             {formatContent(currentArticle.content)}
           </div>
 
-          <div className="comments-section">
-            <h2 className="comments-title">Comments</h2>
+          <div className="blogshore-comments-section">
+            <h2 className="blogshore-comments-title">Comments</h2>
             {currentArticle.comments && currentArticle.comments.length === 0 ? (
-              <p className="text-muted ">No comments yet...</p>
+              <p className="blogshore-text-muted">No comments yet...</p>
             ) : (
               (currentArticle.comments || []).map((commentObj) => (
-                <div key={commentObj._id} className="comment-item">
-                  <p className="comment-user">{commentObj?.nameOfUser}</p>
-                  <p className="comment-text">{commentObj?.comment}</p>
+                <div key={commentObj._id} className="blogshore-comment-item">
+                  <p className="blogshore-comment-user">{commentObj?.nameOfUser}</p>
+                  <p className="blogshore-comment-text">{commentObj?.comment}</p>
                 </div>
               ))
             )}
           </div>
 
           {currentUser?.role === "user" && (
-            <div className="comment-form">
+            <div className="blogshore-comment-form">
               <form onSubmit={handleSubmit(addComment)}>
                 <input
                   type="text"
                   {...register("comment", { required: true })}
-                  className="comment-input"
+                  className="blogshore-comment-input"
                   placeholder="Write a comment..."
                 />
-                <button type="submit" className="submit-button">
+                <button type="submit" className="blogshore-submit-button">
                   Add Comment
                 </button>
               </form>
               {commentStatus && (
-                <p className={commentStatus.includes("Failed") ? "text-error" : "text-success"}>
+                <p className={commentStatus.includes("Failed") ? "blogshore-text-error" : "blogshore-text-success"}>
                   {commentStatus}
                 </p>
               )}
@@ -325,28 +322,28 @@ function ArticleByID() {
           )}
         </>
       ) : (
-        <div className="edit-form">
+        <div className="blogshore-edit-form">
           <form onSubmit={handleSubmit(onSave)}>
             <div className="mb-4">
-              <label htmlFor="title" className="form-label">
+              <label htmlFor="title" className="blogshore-form-label">
                 Title
               </label>
               <input
                 type="text"
                 id="title"
-                className="form-input"
+                className="blogshore-form-input"
                 defaultValue={currentArticle.title}
                 {...register("title", { required: true })}
               />
             </div>
             <div className="mb-4">
-              <label htmlFor="category" className="form-label">
+              <label htmlFor="category" className="blogshore-form-label">
                 Select a category
               </label>
               <select
                 {...register("category", { required: true })}
                 id="category"
-                className="form-select form-input"
+                className="blogshore-form-select blogshore-form-input"
                 defaultValue={currentArticle.category}
               >
                 <option value="programming">Programming</option>
@@ -355,29 +352,29 @@ function ArticleByID() {
               </select>
             </div>
             <div className="mb-4">
-              <label htmlFor="content" className="form-label">
+              <label htmlFor="content" className="blogshore-form-label">
                 Content
               </label>
               <textarea
                 {...register("content", { required: true })}
                 id="content"
-                className="form-textarea"
+                className="blogshore-form-textarea"
                 defaultValue={currentArticle.content}
               ></textarea>
             </div>
             <div className="text-end">
-              {saveError && <p className="text-error mb-2">{saveError}</p>}
+              {saveError && <p className="blogshore-text-error mb-2">{saveError}</p>}
               <div className={isMobileView ? "full-width-buttons" : ""}>
                 <button 
                   type="submit" 
-                  className="submit-button"
+                  className="blogshore-submit-button"
                   disabled={isSaving}
                 >
                   {isSaving ? "Saving..." : "Save Changes"}
                 </button>
                 <button 
                   type="button"
-                  className="submit-button"
+                  className="blogshore-submit-button"
                   onClick={() => setEditArticleStatus(false)}
                   disabled={isSaving}
                 >

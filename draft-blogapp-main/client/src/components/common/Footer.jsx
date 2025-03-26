@@ -20,7 +20,7 @@ const Footer = () => {
           {/* Right Column */}
           <div className="col-md-6 footer-right">
             <div className="social-links">
-              <a href="https://instagram.com/ashhiiiish" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+              <a href="https://instagram.com/swaarroop" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
                 <BsInstagram />
               </a>
               <a href="https://www.linkedin.com/in/swaroop-mallidi/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
