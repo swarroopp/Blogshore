@@ -106,7 +106,7 @@ function ArticleByID() {
       articleAfterChanges.dateOfModification = `${currentDate.getDate()}-${currentDate.getMonth() + 1}-${currentDate.getFullYear()}`;
       
       const res = await axios.put(
-        `http://localhost:3000/author-api/article/${articleAfterChanges.articleId}`,
+        `https://blogshore.onrender.com/author-api/article/${articleAfterChanges.articleId}`,
         articleAfterChanges,
         { 
           headers: { 
@@ -143,7 +143,7 @@ function ArticleByID() {
       commentObj.nameOfUser = currentUser.firstName;
       
       let res = await axios.put(
-        `http://localhost:3000/user-api/comment/${currentArticle.articleId}`,
+        `https://blogshore.onrender.com/user-api/comment/${currentArticle.articleId}`,
         commentObj
       );
       
@@ -175,7 +175,7 @@ function ArticleByID() {
       };
       
       let res = await axios.put(
-        `http://localhost:3000/author-api/article/${currentArticle.articleId}`,
+        `https://blogshore.onrender.com/author-api/article/${currentArticle.articleId}`,
         articleToUpdate,
         { 
           headers: { 
@@ -209,7 +209,7 @@ function ArticleByID() {
       };
       
       let res = await axios.put(
-        `http://localhost:3000/author-api/article/${currentArticle.articleId}`,
+        `https://blogshore.onrender.com/author-api/article/${currentArticle.articleId}`,
         articleToUpdate,
         { 
           headers: { 

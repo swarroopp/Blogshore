@@ -21,7 +21,7 @@ function AdminProfile() {
 
     setLoading(true);
     
-    axios.get("http://localhost:3000/admin-api/users-authors", {
+    axios.get("https://blogshore.onrender.com/admin-api/users-authors", {
       withCredentials: true,
       params: {
         // Add query parameter to exclude admin role
@@ -49,7 +49,7 @@ function AdminProfile() {
   }, [currentUser, navigate]);
 
   const updateStatus = (email, isActive) => {
-    axios.put(`http://localhost:3000/admin-api/update-status/${email}`, 
+    axios.put(`https://blogshore.onrender.com/admin-api/update-status/${email}`, 
       { 
         isActive,
         adminEmail: currentUser.email // Send admin email for verification

@@ -1,5 +1,5 @@
 ### Create a new author
-POST http://localhost:3000/author-api/author
+POST https://blogshore.onrender.com/author-api/author
 Content-Type: application/json
 
 {
@@ -12,7 +12,7 @@ Content-Type: application/json
 }
 
 ### Create a new user
-POST http://localhost:3000/user-api/user
+POST https://blogshore.onrender.com/user-api/user
 Content-Type: application/json
 
 {
@@ -25,7 +25,7 @@ Content-Type: application/json
 }
 
 ### Post a new article
-POST http://localhost:3000/author-api/article
+POST https://blogshore.onrender.com/author-api/article
 Content-Type: application/json
 
 {
@@ -45,13 +45,13 @@ Content-Type: application/json
 }
 
 ### Retrieve all articles available to users
-GET http://localhost:3000/user-api/articles
+GET https://blogshore.onrender.com/user-api/articles
 
 ### Retrieve all articles published by authors
-GET http://localhost:3000/author-api/articles
+GET https://blogshore.onrender.com/author-api/articles
 
 ### Edit an existing article by its ID
-PUT http://localhost:3000/author-api/article/1738331074
+PUT https://blogshore.onrender.com/author-api/article/1738331074
 Content-Type: application/json
 
 {
@@ -71,7 +71,7 @@ Content-Type: application/json
 }
 
 ### Add a comment to an article by its ID
-PUT http://localhost:3000/user-api/comment/1740158465
+PUT https://blogshore.onrender.com/user-api/comment/1740158465
 Content-Type: application/json
 
 {
@@ -80,7 +80,7 @@ Content-Type: application/json
 }
 
 ### Soft delete an article by its ID (mark as inactive)
-PUT http://localhost:3000/author-api/articles/1738331074
+PUT https://blogshore.onrender.com/author-api/articles/1738331074
 Content-Type: application/json
 
 {

@@ -38,14 +38,14 @@ function Articles() {
           };
 
           // Try to verify as author first
-          let response = await axios.post('http://localhost:3000/author-api/author', userData, {
+          let response = await axios.post('https://blogshore.onrender.com/author-api/author', userData, {
             headers: { Authorization: `Bearer ${token}` }
           });
 
           // If not an author, try as user
           if (response.data.message === "Invalid role") {
             userData.role = 'user';
-            response = await axios.post('http://localhost:3000/user-api/user', userData, {
+            response = await axios.post('https://blogshore.onrender.com/user-api/user', userData, {
               headers: { Authorization: `Bearer ${token}` }
             });
           }
@@ -65,7 +65,7 @@ function Articles() {
     setIsLoading(true);
     try {
       const token = await getToken();
-      const res = await axios.get('http://localhost:3000/author-api/articles', {
+      const res = await axios.get('https://blogshore.onrender.com/author-api/articles', {
         headers: {
           Authorization: `Bearer ${token}`
         }
