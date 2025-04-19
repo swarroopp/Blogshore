@@ -7,9 +7,9 @@ const Footer = () => {
   return (
     <footer className="footer">
       <div className="container">
-        <div className="row justify-content-between align-items-center">
+        <div className="row justify-content-between align-items-center mt-1">
           {/* Left Column */}
-          <div className="col-md-6 footer-left">
+          <div className="col-md-3 footer-left">
             <h2 className="brand-name"><FaAnchor className="footer-logo" /> BlogShore</h2>
             <p className="tagline">Where ideas wash ashore, one wave at a time</p>
             <div className="copyright">
@@ -18,7 +18,7 @@ const Footer = () => {
           </div>
 
           {/* Right Column */}
-          <div className="col-md-6 footer-right">
+          <div className="col-md-6 footer-right p-1">
             <div className="social-links">
               <a href="https://instagram.com/swaarroop" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
                 <BsInstagram />
@@ -31,11 +31,7 @@ const Footer = () => {
               </a>
             </div>
             
-            <div className="project-links">
-              <a href="/privacy-policy">Privacy Policy</a>
-              <a href="/terms">Terms of Service</a>
-              <a href="/contact">Contact Us</a>
-            </div>
+ 
             
             
           </div>

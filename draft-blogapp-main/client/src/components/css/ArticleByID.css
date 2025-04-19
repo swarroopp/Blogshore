@@ -1,10 +1,13 @@
 :root {
-    --bg-primary: #000000;
-    --bg-secondary: #1a1a1a;
-    --text-primary: #ffffff;
-    --text-secondary: #ffd700;
-    --border-color: #333333;
-    --hover-color: #ffd700;
+    --bg-primary: var(--wave-black, #000000);
+    --bg-secondary: var(--wave-dark-gray, #121212);
+    --bg-tertiary: var(--wave-mid-gray, #1E1E1E);
+    --bg-quaternary: var(--wave-light-gray, #2A2A2A);
+    --text-primary: var(--wave-text-white, #F0F0F0);
+    --text-secondary: var(--wave-highlight-yellow, #FFD700);
+    --text-muted: var(--wave-accent-silver, #B0B0B0);
+    --border-color: var(--wave-light-gray, #2A2A2A);
+    --hover-color: var(--wave-light-yellow, #FFF700);
 }
 
 .blogshore-article-container {
@@ -23,7 +26,7 @@
     align-items: center;
     gap: 0.5rem;
     padding: 0.75rem 1rem;
-    background: var(--bg-secondary);
+    background: var(--bg-tertiary);
     color: var(--text-secondary);
     border: 1px solid var(--border-color);
     border-radius: 6px;
@@ -66,8 +69,7 @@
 .blogshore-article-meta {
     display: flex;
     gap: 1rem;
-    color: var(--text-primary);
-    opacity: 0.7;
+    color: var(--text-muted);
     margin-bottom: 1rem;
     font-size: 0.9rem;
 }
@@ -86,7 +88,7 @@
     padding: 0.5rem 1rem;
     border: 1px solid var(--border-color);
     border-radius: 6px;
-    background: var(--bg-primary);
+    background: var(--bg-tertiary);
     color: var(--text-primary);
     cursor: pointer;
     transition: all 0.3s ease;
@@ -104,11 +106,12 @@
 
 .blogshore-action-button.delete:hover {
     background: #ff4500;
+    color: var(--bg-primary);
 }
 
 /* Author Block */
 .blogshore-author-block {
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--bg-quaternary);
     border-radius: 8px;
     padding: 1rem;
     width: 180px;
@@ -191,7 +194,7 @@
 
 .blogshore-comment-input {
     width: 100%;
-    background: var(--bg-primary);
+    background: var(--bg-tertiary);
     border: 1px solid var(--border-color);
     color: var(--text-primary);
     padding: 0.75rem;
@@ -210,7 +213,7 @@
 }
 
 .blogshore-submit-button:hover {
-    opacity: 0.8;
+    background: var(--hover-color);
 }
 
 /* Edit Form */
@@ -231,7 +234,7 @@
 .blogshore-form-select,
 .blogshore-form-textarea {
     width: 100%;
-    background: var(--bg-primary);
+    background: var(--bg-tertiary);
     border: 1px solid var(--border-color);
     color: var(--text-primary);
     padding: 0.75rem;
@@ -254,8 +257,7 @@
 }
 
 .blogshore-text-muted {
-    color: var(--text-primary);
-    opacity: 0.5;
+    color: var(--text-muted);
 }
 
 /* Responsive Adjustments */
